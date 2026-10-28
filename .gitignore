@@ -1,0 +1,27 @@
+.software-house/
+data/
+*.egg-info/
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+
+
+# File di riferimento, mai committato
+*.xlsx
+*.xls
+*.xlsm
+*.docx
+*.doc
+
+# Junction verso ~/.claude/agent-domains/ e skill-domains/: una copia sola
+# dell'arsenale, agganciata qui. Mai duplicarla dentro il repo.
+.claude/
+
+# Export PBIX di riferimento (storico cicli): pesanti e con dati reali, mai committati
+*.pbix
+*.pbip
+*.SemanticModel/
+*.Report/
+.concept-forge/

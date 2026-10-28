@@ -1,0 +1,293 @@
+{
+ "schema_version": 1,
+ "diagram_type": "architecture",
+ "meta": {
+  "title": "IBP M1 to-be: concurrent planning on one landing contract",
+  "quality_profile": "showcase",
+  "viewBox": [
+   1060,
+   470
+  ]
+ },
+ "components": [
+  {
+   "id": "wb",
+   "type": "frontend",
+   "label": "Workbench / CLI",
+   "sublabel": "masks per role, edit grid, compare",
+   "tag": "UX-01, UX-02",
+   "pos": [
+    30,
+    50
+   ],
+   "size": [
+    190,
+    76
+   ]
+  },
+  {
+   "id": "channels",
+   "type": "frontend",
+   "label": "Input channels",
+   "sublabel": "ch1 built; ch2, ch3 specified",
+   "tag": "DF-10, U5, U6",
+   "pos": [
+    300,
+    50
+   ],
+   "size": [
+    190,
+    76
+   ]
+  },
+  {
+   "id": "landing",
+   "type": "security",
+   "label": "Landing contract",
+   "sublabel": "key resolution, validation, log, provenance",
+   "tag": "DF-10, SC-02",
+   "pos": [
+    570,
+    50
+   ],
+   "size": [
+    190,
+    76
+   ]
+  },
+  {
+   "id": "opstore",
+   "type": "database",
+   "label": "Operational store",
+   "sublabel": "planner inputs + master data",
+   "tag": "DF-01, DF-04",
+   "pos": [
+    840,
+    50
+   ],
+   "size": [
+    190,
+    76
+   ]
+  },
+  {
+   "id": "trainstore",
+   "type": "database",
+   "label": "Training / verification store",
+   "sublabel": "DWH extracts, read-only; QC",
+   "tag": "DF-05, QC-01..09",
+   "pos": [
+    840,
+    190
+   ],
+   "size": [
+    190,
+    76
+   ]
+  },
+  {
+   "id": "chain",
+   "type": "frontend",
+   "label": "Chain read view",
+   "sublabel": "PM, MK, plant, components",
+   "tag": "UX-04",
+   "pos": [
+    30,
+    190
+   ],
+   "size": [
+    190,
+    76
+   ]
+  },
+  {
+   "id": "compreq",
+   "type": "backend",
+   "label": "Component requirement",
+   "sublabel": "component x plant x region",
+   "tag": "NW-07",
+   "pos": [
+    300,
+    190
+   ],
+   "size": [
+    190,
+    76
+   ]
+  },
+  {
+   "id": "engine",
+   "type": "backend",
+   "label": "Concurrent DAG engine",
+   "sublabel": "load, capacity, OI forecast",
+   "tag": "CP, NW, DF-10",
+   "pos": [
+    570,
+    190
+   ],
+   "size": [
+    190,
+    76
+   ]
+  },
+  {
+   "id": "bom",
+   "type": "database",
+   "label": "Planning BOM",
+   "sublabel": "routing once, component groups",
+   "tag": "NW-07, DF-11",
+   "pos": [
+    840,
+    330
+   ],
+   "size": [
+    190,
+    76
+   ]
+  },
+  {
+   "id": "scen",
+   "type": "backend",
+   "label": "User scenarios",
+   "sublabel": "personal, tool-only: compare, rebase",
+   "tag": "SC-01..08",
+   "pos": [
+    570,
+    330
+   ],
+   "size": [
+    190,
+    76
+   ]
+  },
+  {
+   "id": "cycle",
+   "type": "backend",
+   "label": "Cycle and review",
+   "sublabel": "calendar, review, confirm, DF-09 alerts",
+   "tag": "PR-01..05",
+   "pos": [
+    300,
+    330
+   ],
+   "size": [
+    190,
+    76
+   ]
+  },
+  {
+   "id": "handoff",
+   "type": "external",
+   "label": "dEPM handoff file",
+   "sublabel": "dry-run until confirmed",
+   "tag": "SC-07, AC24",
+   "pos": [
+    30,
+    330
+   ],
+   "size": [
+    190,
+    76
+   ]
+  }
+ ],
+ "connections": [
+  {
+   "id": "wb-ch",
+   "from": "wb",
+   "to": "channels"
+  },
+  {
+   "id": "ch-landing",
+   "from": "channels",
+   "to": "landing"
+  },
+  {
+   "id": "landing-op",
+   "from": "landing",
+   "to": "opstore"
+  },
+  {
+   "id": "train-op",
+   "from": "trainstore",
+   "to": "opstore",
+   "label": "calibrated only",
+   "variant": "dashed"
+  },
+  {
+   "id": "op-engine",
+   "from": "opstore",
+   "to": "engine"
+  },
+  {
+   "id": "bom-engine",
+   "from": "bom",
+   "to": "engine",
+   "label": "rates"
+  },
+  {
+   "id": "engine-comp",
+   "from": "engine",
+   "to": "compreq",
+   "label": "load"
+  },
+  {
+   "id": "comp-chain",
+   "from": "compreq",
+   "to": "chain"
+  },
+  {
+   "id": "engine-scen",
+   "from": "engine",
+   "to": "scen"
+  },
+  {
+   "id": "scen-cycle",
+   "from": "scen",
+   "to": "cycle"
+  },
+  {
+   "id": "cycle-handoff",
+   "from": "cycle",
+   "to": "handoff",
+   "label": "confirm"
+  }
+ ],
+ "cards": [
+  {
+   "dot": "cyan",
+   "title": "Engine and scenarios",
+   "items": [
+    "CP: one concurrent DAG, no refresh job",
+    "SC: personal scenarios, named approver",
+    "NW: back-allocation live, 3 capacity checks"
+   ]
+  },
+  {
+   "dot": "amber",
+   "title": "Planning BOM (NW-07)",
+   "items": [
+    "Routing group splits MK load across plants once",
+    "Component groups explode the load at each plant",
+    "Ordered units by configuration, remainder by rates"
+   ]
+  },
+  {
+   "dot": "emerald",
+   "title": "Data, cycle and surfaces",
+   "items": [
+    "DF: two stores; 3 channels, one contract",
+    "PR: cycle runs on scenarios",
+    "UX-04: chain view computed from the links"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Quality control",
+   "items": [
+    "QC: reported checks, never an M1 gate",
+    "Training store never feeds runtime"
+   ]
+  }
+ ]
+}

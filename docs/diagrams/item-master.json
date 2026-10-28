@@ -1,0 +1,279 @@
+{
+ "schema_version": 1,
+ "diagram_type": "dataflow",
+ "meta": {
+  "title": "IBP M1 - Item master (rev 9.9.3)",
+  "output": "item-master.html",
+  "viewBox": [
+   1068,
+   630
+  ],
+  "quality_profile": "showcase"
+ },
+ "stages": [
+  {
+   "label": "Item master"
+  },
+  {
+   "label": "Dated structures"
+  },
+  {
+   "label": "Keys"
+  },
+  {
+   "label": "Scope and prices"
+  },
+  {
+   "label": "Currency"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "region",
+   "type": "external",
+   "label": "REGION",
+   "sublabel": "L-2 sales region",
+   "stage": 3,
+   "row": 2,
+   "width": 150,
+   "height": 60
+  },
+  {
+   "id": "plant",
+   "type": "external",
+   "label": "PLANT",
+   "sublabel": "plant, dEPM IDs",
+   "stage": 2,
+   "row": 1,
+   "width": 150,
+   "height": 60
+  },
+  {
+   "id": "cluster",
+   "type": "external",
+   "label": "CLUSTER",
+   "sublabel": "= Assembly Cluster",
+   "stage": 2,
+   "row": 0,
+   "width": 150,
+   "height": 60
+  },
+  {
+   "id": "le",
+   "type": "external",
+   "label": "LE",
+   "sublabel": "company code, currency",
+   "stage": 4,
+   "row": 3,
+   "width": 150,
+   "height": 60
+  },
+  {
+   "id": "cal",
+   "type": "external",
+   "label": "Calendar",
+   "sublabel": "day, ISO week, month",
+   "stage": 4,
+   "row": 2,
+   "width": 150,
+   "height": 60
+  },
+  {
+   "id": "item",
+   "type": "database",
+   "label": "ITEM",
+   "sublabel": "all classes + dEPM aliases",
+   "stage": 0,
+   "row": 2,
+   "width": 150,
+   "height": 60
+  },
+  {
+   "id": "ip",
+   "type": "backend",
+   "label": "ITEM x PLANT",
+   "sublabel": "shares, cluster, zone",
+   "stage": 1,
+   "row": 1,
+   "width": 150,
+   "height": 60
+  },
+  {
+   "id": "ir",
+   "type": "backend",
+   "label": "ITEM x REGION",
+   "sublabel": "assignment, SOP/EOP",
+   "stage": 1,
+   "row": 2,
+   "width": 150,
+   "height": 60
+  },
+  {
+   "id": "src",
+   "type": "backend",
+   "label": "ITEM x REGION x PLANT",
+   "sublabel": "regional sourcing rule",
+   "stage": 2,
+   "row": 2,
+   "width": 150,
+   "height": 60
+  },
+  {
+   "id": "links",
+   "type": "backend",
+   "label": "ITEM LINKS",
+   "sublabel": "bridge, semi-fin., BOM options",
+   "stage": 1,
+   "row": 3,
+   "width": 150,
+   "height": 60
+  },
+  {
+   "id": "twin",
+   "type": "backend",
+   "label": "TWIN PLANTS",
+   "sublabel": "plant to plant, dated",
+   "stage": 3,
+   "row": 1,
+   "width": 150,
+   "height": 60
+  },
+  {
+   "id": "price",
+   "type": "backend",
+   "label": "PRICE TABLE",
+   "sublabel": "PM or Product Class",
+   "stage": 2,
+   "row": 3,
+   "width": 150,
+   "height": 60
+  },
+  {
+   "id": "fx",
+   "type": "backend",
+   "label": "FX RATE",
+   "sublabel": "currency x month",
+   "stage": 3,
+   "row": 3,
+   "width": 150,
+   "height": 60
+  }
+ ],
+ "flows": [
+  {
+   "from": "item",
+   "to": "ip",
+   "label": "produced at",
+   "variant": "emphasis",
+   "route": "vertical-channel",
+   "channelX": 187
+  },
+  {
+   "from": "item",
+   "to": "ir",
+   "label": "1:n",
+   "variant": "emphasis",
+   "labelAt": [
+    212,
+    358
+   ]
+  },
+  {
+   "from": "item",
+   "to": "links",
+   "label": "linked",
+   "variant": "emphasis",
+   "route": "vertical-channel",
+   "channelX": 187
+  },
+  {
+   "from": "ip",
+   "to": "cluster",
+   "label": "cluster",
+   "variant": "default",
+   "route": "vertical-channel",
+   "channelX": 403
+  },
+  {
+   "from": "ip",
+   "to": "plant",
+   "label": "1:n",
+   "variant": "default",
+   "labelAt": [
+    438,
+    250
+   ]
+  },
+  {
+   "from": "ir",
+   "to": "src",
+   "label": "rule",
+   "variant": "default"
+  },
+  {
+   "from": "src",
+   "to": "plant",
+   "label": "plant",
+   "variant": "default"
+  },
+  {
+   "from": "src",
+   "to": "region",
+   "label": "region",
+   "variant": "default"
+  },
+  {
+   "from": "plant",
+   "to": "twin",
+   "label": "twins",
+   "variant": "default"
+  },
+  {
+   "from": "price",
+   "to": "fx",
+   "label": "currency",
+   "variant": "default"
+  },
+  {
+   "from": "fx",
+   "to": "le",
+   "label": "1:n",
+   "variant": "default",
+   "labelAt": [
+    858,
+    478
+   ]
+  },
+  {
+   "from": "fx",
+   "to": "cal",
+   "label": "month",
+   "variant": "default",
+   "route": "vertical-channel",
+   "channelX": 833
+  }
+ ],
+ "cards": [
+  {
+   "dot": "emerald",
+   "title": "One item master",
+   "items": [
+    "Planning model and MK are two items joined by a bridge link; folded keys keep dEPM IDs as aliases"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Dated structures",
+   "items": [
+    "ITEM x PLANT, ITEM x REGION, sourcing rule and ITEM LINKS are dated; a phantom has no plant or region row"
+   ]
+  },
+  {
+   "dot": "orange",
+   "title": "Prices and FX",
+   "items": [
+    "Price in local currency (PM or Product Class); FX rate per currency and month to EUR"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,23 @@
+# Manifest di ingest GSD per IBP ACMELIFT.
+# Precedenza esplicita: piu' basso = piu' autorevole.
+#   ADR-001 chiude le decisioni di dominio il 2026-09-19 e supersede lo SPEC dove divergono.
+#   Lo SPEC rigenerato il 2026-09-12 (02) supersede il piano originale (01) su task / AC / backlog.
+docs:
+  - path: docs/ADR-001-decisioni-dominio.md
+    type: ADR
+    precedence: 0
+  - path: docs/02-spec-m1-corrente.md
+    type: SPEC
+    precedence: 1
+  - path: docs/01-plan-m1.md
+    type: PRD
+    precedence: 2
+  - path: docs/00-research-brief.md
+    type: DOC
+    precedence: 3
+  - path: docs/03-consegna-t1-t4.md
+    type: DOC
+    precedence: 4
+  - path: README.md
+    type: DOC
+    precedence: 5

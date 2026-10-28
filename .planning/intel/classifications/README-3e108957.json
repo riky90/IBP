@@ -1,0 +1,35 @@
+{
+  "source_path": "C:\\Users\\user\\Projects\\IBP\\README.md",
+  "type": "DOC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "IBP Platform — M1 (ACMELIFT, reference implementation locale)",
+  "summary": "Italian README documenting IBP M1 local setup, DuckDB seed build, pinned dependency versions, and Windows-specific gotchas for the reference implementation.",
+  "scope": [
+    "setup locale",
+    "db/build_db.py",
+    "data/ibp.duckdb",
+    "db/schema.sql",
+    "seed sintetico deterministico",
+    "item / item_identifier master data",
+    "edge (overlay a grafo)",
+    "rete produttiva (item_link, routing, bill_of_resource, resource, resource_capacity)",
+    "scenario / edits / overlay",
+    "forecast_snapshot / forecast_override / actual_restatement",
+    "ciclo P/R/A/C (cycle, cycle_phase, review_instance, task, raci)",
+    "AC2 master data (plant_master.json, process_phases.json)",
+    "AC25 offline requirement",
+    "pyproject.toml pinned dependency versions",
+    "statsforecast 2.1.1",
+    "hierarchicalforecast 1.5.1",
+    "polars",
+    "pyarrow 18.1.0",
+    "Windows gotchas (DuckDB single-writer, OpenMP segfault, hashlib RNG)"
+  ],
+  "cross_refs": [
+    "docs/01-plan-m1.md"
+  ],
+  "locked": false,
+  "precedence": 5,
+  "notes": ""
+}

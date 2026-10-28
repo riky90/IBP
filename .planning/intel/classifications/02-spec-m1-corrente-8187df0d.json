@@ -1,0 +1,40 @@
+{
+  "source_path": "C:\\Users\\user\\Projects\\IBP\\docs\\02-spec-m1-corrente.md",
+  "type": "SPEC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Plan — Piattaforma IBP ACMELIFT, M1 (core + rete produttiva)",
+  "summary": "Regenerated 2026-09-12 M1 spec for IBP ACMELIFT: data model, rete produttiva, motore, scenari, forecast/FVA, processo P/R/A/C, acceptance criteria AC1-AC31, and backlog T1-T13.",
+  "scope": [
+    "item_link",
+    "production_eligibility",
+    "routing",
+    "bill_of_resource",
+    "edits",
+    "overlay",
+    "DVERSIONS",
+    "RecalcEngine",
+    "forecast_snapshot",
+    "statsforecast/hierarchicalforecast",
+    "Portfolio Review",
+    "Integrated Reconciliation",
+    "back-allocation (job 3000)",
+    "semantic layer (mirror dEPM + graph overlay)",
+    "db/schema.sql",
+    "confirm_back_to_sales",
+    "T1-T13 backlog"
+  ],
+  "cross_refs": [
+    "docs/01-plan-m1.md",
+    "README.md",
+    "UI-SPEC.md",
+    "db/schema.sql",
+    ".software-house/20260910-0830-ibp-platform/plan.md",
+    "docs/01-architecture.md",
+    "docs/06-adr.md",
+    "docs/diagrams/**"
+  ],
+  "locked": false,
+  "precedence": 1,
+  "notes": "Type set by MANIFEST_TYPE (authoritative); content independently confirms SPEC signals (data model tables, contracts, invariants, AC/backlog). Document's own header states it SUPERSEDES docs/01-plan-m1.md for task detail, acceptance criteria, and backlog, while docs/01-plan-m1.md remains the source for program-level context and business rationale. source_hash computed with a deterministic polynomial fallback (SHA-256 unavailable in this agent's toolset) — collision-safe among this run's sibling files but not a cryptographic SHA-256 digest."
+}

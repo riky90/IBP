@@ -1,0 +1,29 @@
+{
+  "source_path": "C:\\Users\\user\\Projects\\IBP\\docs\\ADR-001-decisioni-dominio.md",
+  "type": "ADR",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "ADR-001 — Decisioni di dominio chiuse dal product owner",
+  "summary": "Product owner closes eight open domain questions (D-001..D-008) and adds R-001, a trunk-and-branches (Kinaxis-style) scenario model requirement.",
+  "scope": [
+    "Basic Assembly slot consumption at Northfield",
+    "_Plant and -BA naming conventions",
+    "Southport/Rivermouth site identity",
+    "Eastbrook SEA plant modeling",
+    "ANA-050 spec go-live status",
+    "NAM elective routing attributes",
+    "Average Assembly Hours data quality",
+    "job 3000 carry-forward behavior",
+    "scenario model trunk-and-branches (Kinaxis)",
+    "DVERSIONS and promote() semantics",
+    "T4 rework impact",
+    "T11 branch navigation UI",
+    "T12 demo"
+  ],
+  "cross_refs": [
+    "docs/02-spec-m1-corrente.md"
+  ],
+  "locked": true,
+  "precedence": 0,
+  "notes": ""
+}

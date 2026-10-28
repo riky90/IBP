@@ -1,0 +1,342 @@
+{
+ "schema_version": 1,
+ "diagram_type": "dataflow",
+ "meta": {
+  "title": "IBP M1 - Data path: operational inputs and the one-way DWH",
+  "output": "dati.html",
+  "viewBox": [
+   1068,
+   640
+  ],
+  "quality_profile": "showcase"
+ },
+ "stages": [
+  {
+   "label": "Input channels"
+  },
+  {
+   "label": "Landing contract"
+  },
+  {
+   "label": "Operational store"
+  },
+  {
+   "label": "Engine"
+  },
+  {
+   "label": "Outputs and reads"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "ch1",
+   "type": "frontend",
+   "label": "Mask entry / file",
+   "sublabel": "channel 1, incl. Order Intake",
+   "stage": 0,
+   "row": 0,
+   "width": 140
+  },
+  {
+   "id": "ch2",
+   "type": "external",
+   "label": "ERP extract",
+   "sublabel": "channel 2",
+   "stage": 0,
+   "row": 1,
+   "width": 140
+  },
+  {
+   "id": "ch3",
+   "type": "external",
+   "label": "Snowflake link",
+   "sublabel": "channel 3",
+   "stage": 0,
+   "row": 2,
+   "width": 140
+  },
+  {
+   "id": "ob",
+   "type": "external",
+   "label": "Configured Order Book",
+   "sublabel": "U1, order-line config",
+   "stage": 0,
+   "row": 3,
+   "width": 140
+  },
+  {
+   "id": "landing",
+   "type": "security",
+   "label": "Landing contract",
+   "sublabel": "grain, keys, validation",
+   "stage": 1,
+   "row": 2,
+   "width": 140,
+   "height": 200
+  },
+  {
+   "id": "master",
+   "type": "backend",
+   "label": "Master data",
+   "sublabel": "dimensions, bridge, Component",
+   "stage": 2,
+   "row": 1,
+   "width": 140
+  },
+  {
+   "id": "opstore",
+   "type": "database",
+   "label": "Operational store",
+   "sublabel": "planner inputs",
+   "stage": 2,
+   "row": 2,
+   "width": 140
+  },
+  {
+   "id": "bom",
+   "type": "backend",
+   "label": "Planning BOM",
+   "sublabel": "MK x region, dated",
+   "stage": 2,
+   "row": 3,
+   "width": 140
+  },
+  {
+   "id": "engine",
+   "type": "backend",
+   "label": "Concurrent engine",
+   "sublabel": "inventory, load, gap",
+   "stage": 3,
+   "row": 2,
+   "width": 140
+  },
+  {
+   "id": "comp",
+   "type": "backend",
+   "label": "Component requirement",
+   "sublabel": "no component capacity",
+   "stage": 3,
+   "row": 3,
+   "width": 140
+  },
+  {
+   "id": "scen",
+   "type": "backend",
+   "label": "Scenarios",
+   "sublabel": "tool-only",
+   "stage": 4,
+   "row": 1,
+   "width": 140
+  },
+  {
+   "id": "handoff",
+   "type": "external",
+   "label": "dEPM handoff file",
+   "sublabel": "on confirm",
+   "stage": 4,
+   "row": 0,
+   "width": 140
+  },
+  {
+   "id": "pbi",
+   "type": "external",
+   "label": "Power BI",
+   "sublabel": "version names",
+   "stage": 4,
+   "row": 2,
+   "width": 140
+  },
+  {
+   "id": "chain",
+   "type": "frontend",
+   "label": "Chain view (UX-04)",
+   "sublabel": "read-only, computed",
+   "stage": 4,
+   "row": 3,
+   "width": 140
+  },
+  {
+   "id": "dwh",
+   "type": "cloud",
+   "label": "DWH",
+   "sublabel": "dmsnop, PBI models",
+   "stage": 1,
+   "row": 0,
+   "width": 140
+  },
+  {
+   "id": "tvstore",
+   "type": "database",
+   "label": "Training store",
+   "sublabel": "read-only",
+   "stage": 2,
+   "row": 0,
+   "width": 140
+  },
+  {
+   "id": "profiles",
+   "type": "backend",
+   "label": "Calibrated profiles",
+   "sublabel": "plant mix, STAT",
+   "stage": 3,
+   "row": 0,
+   "width": 140
+  }
+ ],
+ "flows": [
+  {
+   "from": "ch1",
+   "to": "landing",
+   "variant": "emphasis",
+   "label": "entry",
+   "labelAt": [
+    100,
+    124
+   ]
+  },
+  {
+   "from": "ch2",
+   "to": "landing",
+   "variant": "emphasis",
+   "label": "ERP",
+   "labelAt": [
+    100,
+    238
+   ]
+  },
+  {
+   "from": "ch3",
+   "to": "landing",
+   "variant": "emphasis",
+   "label": "link",
+   "labelAt": [
+    100,
+    352
+   ]
+  },
+  {
+   "from": "ob",
+   "to": "landing",
+   "variant": "emphasis",
+   "label": "orders",
+   "labelAt": [
+    100,
+    466
+   ]
+  },
+  {
+   "from": "landing",
+   "to": "opstore",
+   "label": "only way",
+   "variant": "emphasis"
+  },
+  {
+   "from": "master",
+   "to": "opstore",
+   "variant": "default",
+   "label": "master data",
+   "labelAt": [
+    530,
+    314
+   ]
+  },
+  {
+   "from": "opstore",
+   "to": "engine",
+   "label": "inputs",
+   "variant": "emphasis"
+  },
+  {
+   "from": "bom",
+   "to": "comp",
+   "label": "rates",
+   "variant": "default"
+  },
+  {
+   "from": "engine",
+   "to": "comp",
+   "label": "load per plant",
+   "variant": "emphasis",
+   "labelAt": [
+    745,
+    428
+   ]
+  },
+  {
+   "from": "engine",
+   "to": "scen",
+   "label": "consequences",
+   "variant": "emphasis"
+  },
+  {
+   "from": "scen",
+   "to": "handoff",
+   "label": "confirm",
+   "variant": "default"
+  },
+  {
+   "from": "scen",
+   "to": "pbi",
+   "label": "version names",
+   "variant": "default",
+   "labelAt": [
+    960,
+    314
+   ]
+  },
+  {
+   "from": "comp",
+   "to": "chain",
+   "label": "computed",
+   "variant": "default"
+  },
+  {
+   "from": "dwh",
+   "to": "tvstore",
+   "label": "one way",
+   "variant": "security"
+  },
+  {
+   "from": "tvstore",
+   "to": "profiles",
+   "label": "calibration",
+   "variant": "default"
+  },
+  {
+   "from": "profiles",
+   "to": "engine",
+   "label": "profiles only",
+   "variant": "security",
+   "labelAt": [
+    745,
+    200
+   ]
+  }
+ ],
+ "cards": [
+  {
+   "dot": "emerald",
+   "title": "Operational path",
+   "items": [
+    "Three channels, one landing contract; nothing enters the store any other way",
+    "Order Intake forecast and the configured Order Book (U1) land the same way"
+   ]
+  },
+  {
+   "dot": "rose",
+   "title": "Planning BOM and chain view",
+   "items": [
+    "Rates at MK x region with global fallback, dated; real order configuration wins",
+    "Chain view computed by the engine, never a stored wide table"
+   ]
+  },
+  {
+   "dot": "orange",
+   "title": "DWH never operational",
+   "items": [
+    "DWH feeds only the read-only training store",
+    "The engine gets calibrated profiles only"
+   ]
+  }
+ ]
+}

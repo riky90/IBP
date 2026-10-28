@@ -1,0 +1,30 @@
+{
+  "source_path": "C:\\Users\\user\\Projects\\IBP\\docs\\00-research-brief.md",
+  "type": "DOC",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "IBP Platform — Research Brief",
+  "summary": "Research brief comparing o9, Kinaxis Maestro and DELMIA Quintiq platform architectures against Acmelift's current S&OP/IBP process and tech stack.",
+  "scope": [
+    "o9 Solutions",
+    "Enterprise Knowledge Graph (EKG)",
+    "Kinaxis Maestro",
+    "concurrent planning",
+    "DELMIA Quintiq",
+    "Quill",
+    "Acmelift S&OP",
+    "ciclo P/R/A/C",
+    "SAP S/4",
+    "Infor dEPM/CloudSuite",
+    "Power BI",
+    "Gartner Score",
+    "Oliver Wight",
+    "Portfolio Review",
+    "Integrated Reconciliation",
+    "Management Business Review (MBR)"
+  ],
+  "cross_refs": [],
+  "locked": false,
+  "precedence": 3,
+  "notes": ""
+}

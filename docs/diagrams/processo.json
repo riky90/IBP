@@ -1,0 +1,39 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "IBP M1 - concurrent planning, one monthly review (to-be)",
+    "output": "processo.html",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    { "id": "sales", "label": "Sales planner" },
+    { "id": "ops", "label": "Ops planner" },
+    { "id": "tool", "label": "Tool (common plan)" },
+    { "id": "review", "label": "Review and view-only" }
+  ],
+  "mainPath": ["land", "sscen", "plan", "alerts", "review", "publish"],
+  "nodes": [
+    { "id": "land", "lane": "tool", "col": 0, "type": "database", "label": "Inputs land", "sublabel": "masks, ERP extract, Snowflake", "tag": "one landing contract", "width": 180 },
+    { "id": "sscen", "lane": "sales", "col": 1, "type": "frontend", "label": "Sales scenario", "sublabel": "personal, shared, confirmed", "width": 180 },
+    { "id": "oscen", "lane": "ops", "col": 1, "type": "frontend", "label": "Ops scenario", "sublabel": "sees latest confirmed request", "width": 190 },
+    { "id": "plan", "lane": "tool", "col": 2, "type": "backend", "label": "Common plan", "sublabel": "confirmed change visible at once", "width": 200 },
+    { "id": "alerts", "lane": "tool", "col": 3, "type": "backend", "label": "Cross-function alerts", "sublabel": "PR-06 gaps, DF-09 production", "width": 200 },
+    { "id": "frozen", "lane": "ops", "col": 3, "type": "frontend", "label": "Frozen zone", "sublabel": "Operations Orderbook default", "tag": "manual change: reason S-17", "width": 200 },
+    { "id": "review", "lane": "review", "col": 4, "type": "security", "label": "Monthly review", "sublabel": "freezes official versions", "tag": "agenda with exceptions", "width": 190 },
+    { "id": "publish", "lane": "review", "col": 5, "type": "external", "label": "CYCLE MM YYYY R / C", "sublabel": "to dEPM and Power BI", "width": 180 },
+    { "id": "viewers", "lane": "review", "col": 2, "type": "external", "label": "Manager, Regional, Corporate", "sublabel": "read confirmed plan after login", "width": 220 }
+  ],
+  "edges": [
+    { "from": "land", "to": "sscen" },
+    { "from": "land", "to": "oscen" },
+    { "from": "sscen", "to": "plan", "label": "confirm" },
+    { "from": "oscen", "to": "plan", "label": "confirm" },
+    { "from": "plan", "to": "alerts" },
+    { "from": "plan", "to": "frozen", "label": "frozen months" },
+    { "from": "alerts", "to": "review" },
+    { "from": "frozen", "to": "review", "label": "exception" },
+    { "from": "review", "to": "publish" },
+    { "from": "plan", "to": "viewers" }
+  ]
+}

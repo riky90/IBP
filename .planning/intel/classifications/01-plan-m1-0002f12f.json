@@ -1,0 +1,38 @@
+{
+  "source_path": "C:\\Users\\user\\Projects\\IBP\\docs\\01-plan-m1.md",
+  "type": "PRD",
+  "confidence": "high",
+  "manifest_override": true,
+  "title": "Piano — Piattaforma IBP ACMELIFT",
+  "summary": "Original approved M1 plan for the ACMELIFT IBP platform: business context, Gartner 2024 measurement, the three-milestone M1/M2/M3 programme, fixed decisions F1-F13, and architecture A1-A11 that must hold for M2/M3.",
+  "scope": [
+    "ACMELIFT IBP platform",
+    "S&OP process P/R/A/C cycle",
+    "Gartner Score 2024 assessment",
+    "M1/M2/M3 milestone programme",
+    "Portfolio Review",
+    "Integrated Reconciliation",
+    "MBR",
+    "product_mapping (many-to-many PM/MK)",
+    "production_eligibility",
+    "routing multi-step",
+    "bill_of_resource",
+    "dependent demand / offset 2 mesi",
+    "allocatore multi-plant",
+    "semantic layer star schema + graph overlay (edge table)",
+    "concurrent planning engine (DAG, height, early cutoff)",
+    "DuckDB + Polars + Arrow persistence",
+    "scenario event log / overlay / promozione",
+    "statistical forecast + FVA (forecast_snapshot)",
+    "rete a monte (dealer interni, MCC, installatori) - M2",
+    "rete a valle (fornitori interni, double sourcing) - M3",
+    "backlog T1-T13",
+    "acceptance criteria AC1-AC26"
+  ],
+  "cross_refs": [
+    "docs/02-spec-m1-corrente.md"
+  ],
+  "locked": false,
+  "precedence": 2,
+  "notes": "Header marks this document PARTIALLY SUPERSEDED: docs/02-spec-m1-corrente.md (rigenerato 2026-09-12) is now authoritative for M1 task/acceptance-criteria detail and backlog. This document remains authoritative for business context, the Gartner 2024 measurement, the three-milestone M1/M2/M3 programme, and the architecture decisions (A1-A11, fixed decisions F1-F13) that must hold for M2/M3. MANIFEST_TYPE=PRD and MANIFEST_PRECEDENCE=2 applied per instruction, overriding any heuristic classification (document also contains dense architecture-decision content, e.g. F1-F13 and A1-A11, that resembles ADR/SPEC material, but the manifest override takes precedence)."
+}

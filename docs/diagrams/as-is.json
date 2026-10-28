@@ -1,0 +1,255 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "As-is: ACMELIFT S&OP mechanics with located defects",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    {
+      "id": "planners",
+      "type": "external",
+      "label": "Planners",
+      "sublabel": "typed or pasted",
+      "pos": [
+        40,
+        80
+      ],
+      "size": [
+        164,
+        80
+      ]
+    },
+    {
+      "id": "masks",
+      "type": "frontend",
+      "label": "dEPM masks",
+      "sublabel": "Sales, Ops, actuals",
+      "pos": [
+        294,
+        80
+      ],
+      "size": [
+        164,
+        80
+      ]
+    },
+    {
+      "id": "instances",
+      "type": "database",
+      "label": "Instances P / R / A / C",
+      "sublabel": "copy-forward per cycle",
+      "tag": "DS2 DS4 DS5 DP1 DP2 DP6",
+      "pos": [
+        548,
+        80
+      ],
+      "size": [
+        164,
+        80
+      ]
+    },
+    {
+      "id": "dwh",
+      "type": "database",
+      "label": "DWH",
+      "sublabel": "Azure SQL dmsnop views",
+      "tag": "DD1-5 DD7-10",
+      "pos": [
+        802,
+        80
+      ],
+      "size": [
+        164,
+        80
+      ]
+    },
+    {
+      "id": "pbi",
+      "type": "frontend",
+      "label": "Power BI",
+      "sublabel": "version-name strings",
+      "tag": "DK1-DK4",
+      "pos": [
+        802,
+        225
+      ],
+      "size": [
+        164,
+        80
+      ]
+    },
+    {
+      "id": "batch",
+      "type": "backend",
+      "label": "dEPM batch jobs",
+      "sublabel": "jobs 2000 to 4100",
+      "tag": "DS1 DS6",
+      "pos": [
+        548,
+        225
+      ],
+      "size": [
+        164,
+        80
+      ]
+    },
+    {
+      "id": "excel",
+      "type": "external",
+      "label": "Excel back-allocation",
+      "sublabel": "BA kits, installations",
+      "tag": "DS3 DD6",
+      "pos": [
+        294,
+        225
+      ],
+      "size": [
+        164,
+        80
+      ]
+    },
+    {
+      "id": "store",
+      "type": "database",
+      "label": "DuckDB store",
+      "sublabel": "40 tables, synthetic seed",
+      "tag": "DC1 DC9 DC11",
+      "pos": [
+        40,
+        370
+      ],
+      "size": [
+        164,
+        80
+      ]
+    },
+    {
+      "id": "engine",
+      "type": "backend",
+      "label": "RecalcEngine",
+      "sublabel": "DAG from requested_production",
+      "tag": "DC2 DC3 DC4 DC8",
+      "pos": [
+        294,
+        370
+      ],
+      "size": [
+        164,
+        80
+      ]
+    },
+    {
+      "id": "scenario",
+      "type": "backend",
+      "label": "ibp/scenario",
+      "sublabel": "overlay, compare, promote",
+      "tag": "DC5 DC6 DC7 DC10",
+      "pos": [
+        548,
+        370
+      ],
+      "size": [
+        164,
+        80
+      ]
+    },
+    {
+      "id": "corpus",
+      "type": "external",
+      "label": "Planning corpus",
+      "sublabel": "specs, ADRs, diagrams",
+      "tag": "DM2 DM3 DM4 DM6 DM7",
+      "pos": [
+        802,
+        370
+      ],
+      "size": [
+        164,
+        80
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Infor dEPM (system of record)",
+      "wraps": [
+        "masks",
+        "instances",
+        "batch"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "DWH and reporting",
+      "wraps": [
+        "dwh",
+        "pbi"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "IBP prototype code, phases 1-4",
+      "wraps": [
+        "store",
+        "engine",
+        "scenario"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "planners-masks",
+      "from": "planners",
+      "to": "masks",
+      "label": "manual entry"
+    },
+    {
+      "id": "masks-instances",
+      "from": "masks",
+      "to": "instances",
+      "label": "P and A inputs"
+    },
+    {
+      "id": "batch-instances",
+      "from": "batch",
+      "to": "instances",
+      "label": "copy jobs",
+      "variant": "dashed"
+    },
+    {
+      "id": "instances-excel",
+      "from": "instances",
+      "to": "excel",
+      "label": "by hand",
+      "variant": "dashed"
+    },
+    {
+      "id": "instances-dwh",
+      "from": "instances",
+      "to": "dwh",
+      "label": "export day 3",
+      "variant": "emphasis"
+    },
+    {
+      "id": "dwh-pbi",
+      "from": "dwh",
+      "to": "pbi",
+      "label": "models",
+      "labelDy": 24
+    },
+    {
+      "id": "store-engine",
+      "from": "store",
+      "to": "engine",
+      "label": "reads"
+    },
+    {
+      "id": "engine-scenario",
+      "from": "engine",
+      "to": "scenario",
+      "label": "overlay"
+    }
+  ]
+}

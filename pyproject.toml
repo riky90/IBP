@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ibp"
+version = "0.1.0"
+description = "IBP platform reference implementation (M1) — ACMELIFT"
+requires-python = ">=3.11"
+readme = "README.md"
+
+# Dipendenze base (M1-M3) dichiarate qui, una volta sola: sono quelle che
+# servono per pip install -e . su un Python 3.13 "di sistema" (schema, seed,
+# API, workbench). Nessun task successivo a T1 modifica questo file (vedi
+# docs/01-plan-m1.md, A6). Lo stack di forecasting (usato solo da T5) resta
+# nell'extra opzionale [forecast] qui sotto — non perché non sia
+# installabile (lo è, vedi sotto), ma perché tira dentro ~11 pacchetti che
+# M1-M4 non usano. Vedi "Gotcha Windows" nel README.
+dependencies = [
+    "duckdb==1.1.3",
+    "polars==1.9.0",
+    "pyarrow==18.1.0",
+    "fastapi==0.115.0",
+    "uvicorn==0.30.6",
+    "pydantic==2.9.2",
+    "python-dateutil==2.9.0.post0",
+    "openpyxl==3.1.5",
+    "pytest==8.3.3",
+]
+
+[project.optional-dependencies]
+# Stack di forecasting, usato solo da T5 (forecast statistico + FVA).
+#
+# Correzione del 2026-09-12. Il pin precedente era `statsforecast==1.7.8`,
+# diagnosticato come "serve MSVC". Falso su entrambi i punti:
+#
+#   1. la versione 1.7.8 **non esiste** su PyPI (la serie 1.7 si ferma a
+#      1.7.6, poi salta a 2.0.3). pip non trovava la versione, ripiegava
+#      sulla sdist e falliva in build: l'errore del compilatore era il
+#      sintomo, non la causa;
+#   2. la serie 2.x ha sostituito `numba` con `coreforecast` e pubblica
+#      wheel cp313 per Windows. `statsforecast==2.1.1` e
+#      `hierarchicalforecast==1.5.1` si installano **da wheel**, senza
+#      alcun toolchain C++, e risolvono senza toccare i pin di base
+#      (pyarrow resta a 18.1.0).
+#
+# Verificato su questa macchina: AutoETS + AutoARIMA + SeasonalNaive e
+# riconciliazione BottomUp + MinTrace(ols), coerenza gerarchica a 2.8e-14.
+# Leggere "Gotcha Windows" nel README per l'ordine di import obbligatorio:
+# `hierarchicalforecast._lib` va caricato PRIMA di utilsforecast/coreforecast
+# o il processo va in segfault (due runtime OpenMP nello stesso processo).
+forecast = [
+    "statsforecast==2.1.1",
+    "hierarchicalforecast==1.5.1",
+    "utilsforecast==0.2.16",
+]
+
+[tool.setuptools.packages.find]
+include = ["ibp*"]

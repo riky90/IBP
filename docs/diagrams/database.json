@@ -1,0 +1,507 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "La struttura del database — dove gli otto casi diventano dato",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1380,
+      560
+    ],
+    "views": [
+      {
+        "id": "modello",
+        "label": "Il modello — un master, identita' datata",
+        "focus": [
+          "item",
+          "item_identifier",
+          "item_link",
+          "eligibility",
+          "routing"
+        ],
+        "note": "Un master di item con un ruolo; l'identita' sta in una tabella a parte, datata. Il caption non e' piu' una chiave."
+      },
+      {
+        "id": "rete",
+        "label": "La rete — plant interni e terzisti",
+        "focus": [
+          "plant_dim",
+          "eligibility",
+          "routing",
+          "resource"
+        ],
+        "note": "Il terzista e' un plant con capacita' propria e plant_type = subcontractor: esterno dichiarato, non nascosto."
+      },
+      {
+        "id": "fatti",
+        "label": "I fatti — grana piena",
+        "focus": [
+          "demand_plan",
+          "supply_plan",
+          "confirmation"
+        ],
+        "note": "Il supply plan porta division, region e item; la conferma non puo' esistere senza planning item."
+      },
+      {
+        "id": "decisione",
+        "label": "Scenari, forecast, eccezioni",
+        "focus": [
+          "scenario",
+          "forecast",
+          "exception"
+        ],
+        "note": "Event log append-only, snapshot a lag costante, soglie marcate provvisorie nel dato."
+      },
+      {
+        "id": "processo",
+        "label": "Il processo P/R/A/C",
+        "focus": [
+          "cycle",
+          "decision"
+        ],
+        "note": "Ogni decisione ha un ciclo, un review, un autore e una data: non vive in una mail."
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "item",
+      "type": "database",
+      "label": "item",
+      "sublabel": "role · region · is_sellable",
+      "pos": [
+        55,
+        90
+      ],
+      "size": [
+        165,
+        64
+      ],
+      "tag": "un solo master"
+    },
+    {
+      "id": "item_identifier",
+      "type": "database",
+      "label": "item_identifier",
+      "sublabel": "id_type · valid_from/to",
+      "pos": [
+        55,
+        210
+      ],
+      "size": [
+        165,
+        64
+      ],
+      "tag": "nome, caption, SAP"
+    },
+    {
+      "id": "plant_dim",
+      "type": "database",
+      "label": "plant · region · division",
+      "sublabel": "plant_type interno/terzista",
+      "pos": [
+        55,
+        330
+      ],
+      "size": [
+        165,
+        64
+      ],
+      "tag": "rinomini tracciati"
+    },
+    {
+      "id": "time_dim",
+      "type": "database",
+      "label": "dim_date · version",
+      "sublabel": "mese, settimana, ciclo",
+      "pos": [
+        55,
+        450
+      ],
+      "size": [
+        165,
+        64
+      ],
+      "tag": "tempo e scenari"
+    },
+    {
+      "id": "item_link",
+      "type": "database",
+      "label": "item_link",
+      "sublabel": "link_type · quota · offset",
+      "pos": [
+        320,
+        90
+      ],
+      "size": [
+        165,
+        64
+      ],
+      "tag": "sostituisce product_mapping"
+    },
+    {
+      "id": "eligibility",
+      "type": "database",
+      "label": "production_eligibility",
+      "sublabel": "item x plant x region",
+      "pos": [
+        320,
+        330
+      ],
+      "size": [
+        165,
+        64
+      ],
+      "tag": "chi puo' produrre cosa"
+    },
+    {
+      "id": "routing",
+      "type": "database",
+      "label": "routing · routing_step",
+      "sublabel": "multi-step, elettivo o no",
+      "pos": [
+        320,
+        450
+      ],
+      "size": [
+        165,
+        64
+      ],
+      "tag": "variant_key"
+    },
+    {
+      "id": "demand_plan",
+      "type": "backend",
+      "label": "demand_plan",
+      "sublabel": "item x division x region",
+      "pos": [
+        585,
+        90
+      ],
+      "size": [
+        165,
+        64
+      ],
+      "tag": "il piano domanda"
+    },
+    {
+      "id": "supply_plan",
+      "type": "backend",
+      "label": "supply_plan",
+      "sublabel": "+ division, region, item",
+      "pos": [
+        585,
+        210
+      ],
+      "size": [
+        165,
+        64
+      ],
+      "tag": "grana corretta"
+    },
+    {
+      "id": "confirmation",
+      "type": "backend",
+      "label": "confirmation",
+      "sublabel": "planning item obbligatorio",
+      "pos": [
+        585,
+        330
+      ],
+      "size": [
+        165,
+        64
+      ],
+      "tag": "niente Dummy"
+    },
+    {
+      "id": "forecast",
+      "type": "backend",
+      "label": "forecast_snapshot",
+      "sublabel": "override · restatement",
+      "pos": [
+        850,
+        90
+      ],
+      "size": [
+        165,
+        64
+      ],
+      "tag": "FVA a lag costante"
+    },
+    {
+      "id": "scenario",
+      "type": "messagebus",
+      "label": "scenario · edits",
+      "sublabel": "append-only + overlay",
+      "pos": [
+        850,
+        210
+      ],
+      "size": [
+        165,
+        64
+      ],
+      "tag": "tombstone esplicito"
+    },
+    {
+      "id": "resource",
+      "type": "cloud",
+      "label": "resource · capacity",
+      "sublabel": "bill_of_resource per step",
+      "pos": [
+        850,
+        330
+      ],
+      "size": [
+        165,
+        64
+      ],
+      "tag": "slot e ore, terzisti inclusi"
+    },
+    {
+      "id": "cycle",
+      "type": "frontend",
+      "label": "cycle · review",
+      "sublabel": "P/R/A/C + 2 review IBP",
+      "pos": [
+        1115,
+        90
+      ],
+      "size": [
+        165,
+        64
+      ],
+      "tag": "cycle_phase"
+    },
+    {
+      "id": "decision",
+      "type": "frontend",
+      "label": "decision · gap",
+      "sublabel": "escalation · raci",
+      "pos": [
+        1115,
+        210
+      ],
+      "size": [
+        165,
+        64
+      ],
+      "tag": "chi ha deciso, quando"
+    },
+    {
+      "id": "exception",
+      "type": "security",
+      "label": "exception_rule",
+      "sublabel": "rule + instance",
+      "pos": [
+        1115,
+        330
+      ],
+      "size": [
+        165,
+        64
+      ],
+      "tag": "soglie provvisorie nel dato"
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Il modello — identita' e relazioni datate",
+      "wraps": [
+        "item",
+        "item_identifier",
+        "plant_dim",
+        "time_dim",
+        "item_link",
+        "eligibility",
+        "routing"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "I fatti — grana piena",
+      "wraps": [
+        "demand_plan",
+        "supply_plan",
+        "confirmation"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "Capacita', scenari e processo",
+      "wraps": [
+        "resource",
+        "scenario",
+        "forecast",
+        "cycle",
+        "decision",
+        "exception"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "d-item-ident",
+      "from": "item",
+      "to": "item_identifier",
+      "label": "n identita'",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelDy": 24
+    },
+    {
+      "id": "d-item-link",
+      "from": "item",
+      "to": "item_link",
+      "label": "tre ruoli",
+      "variant": "emphasis",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "d-plant-elig",
+      "from": "plant_dim",
+      "to": "eligibility",
+      "label": "per region",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "d-time-routing",
+      "from": "time_dim",
+      "to": "routing",
+      "label": "datato",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "d-elig-routing",
+      "from": "eligibility",
+      "to": "routing",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "d-link-supply",
+      "from": "item_link",
+      "to": "supply_plan",
+      "label": "gli otto casi",
+      "variant": "emphasis",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "d-routing-supply",
+      "from": "routing",
+      "to": "supply_plan",
+      "label": "capacita' step",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "d-demand-supply",
+      "from": "demand_plan",
+      "to": "supply_plan",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "d-supply-conf",
+      "from": "supply_plan",
+      "to": "confirmation",
+      "label": "grana piena",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelDy": 24
+    },
+    {
+      "id": "d-supply-res",
+      "from": "supply_plan",
+      "to": "resource",
+      "label": "prelievo",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "d-supply-scen",
+      "from": "supply_plan",
+      "to": "scenario",
+      "label": "celle editabili",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "d-demand-fc",
+      "from": "demand_plan",
+      "to": "forecast",
+      "label": "snapshot",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "d-fc-cycle",
+      "from": "forecast",
+      "to": "cycle",
+      "label": "per ciclo",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "d-scen-decision",
+      "from": "scenario",
+      "to": "decision",
+      "label": "scenario scelto",
+      "fromSide": "right",
+      "toSide": "left"
+    },
+    {
+      "id": "d-exc-decision",
+      "from": "exception",
+      "to": "decision",
+      "variant": "security",
+      "fromSide": "top",
+      "toSide": "bottom"
+    },
+    {
+      "id": "d-res-exception",
+      "from": "resource",
+      "to": "exception",
+      "label": "sforo capacita'",
+      "fromSide": "right",
+      "toSide": "left"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Cosa cambia rispetto a oggi",
+      "items": [
+        "Un master item con role, non tre tabelle",
+        "item_identifier separa identita' e caption",
+        "item_link al posto di product_mapping"
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "Cosa diventa una colonna",
+      "items": [
+        "La region sull'item: i suffissi -BA e -BR spariscono",
+        "L'offset di 2 mesi, non una convenzione fra nomi",
+        "La quota, letta dal mix a consuntivo dell'orderbook"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Cosa non si perde piu'",
+      "items": [
+        "Il terzista ha capacita' e plant_type dichiarato",
+        "valid_from / valid_to: il caso Steyr non riscrive il passato",
+        "La conferma porta il planning item: Dummy sparisce"
+      ]
+    }
+  ]
+}
